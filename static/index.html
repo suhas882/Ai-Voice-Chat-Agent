@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoCraft AI Studio - AI Voice & Chat Prototype</title>
+    <meta name="description" content="A beginner-friendly, low-cost prototype integrating neural AI voice generation and conversational chat agent.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Top Navigation & Header -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="22"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1>EchoCraft AI Studio</h1>
+                    <p class="brand-tagline">AI Voice Generation & Conversational Agent Prototype</p>
+                </div>
+            </div>
+
+            <div class="header-status">
+                <div class="status-pill" id="system-status">
+                    <span class="status-indicator"></span>
+                    <span id="status-text">Connecting to backend...</span>
+                </div>
+                <div class="provider-badge" id="active-provider-badge">
+                    Engine: Initializing
+                </div>
+            </div>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <nav class="tabs-nav" role="tablist">
+            <button class="tab-btn active" id="tab-btn-voice" data-tab="voice-studio" role="tab" aria-selected="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                </svg>
+                <span>1. AI Voice Studio</span>
+                <span class="tab-chip">Feature 1</span>
+            </button>
+
+            <button class="tab-btn" id="tab-btn-chat" data-tab="chat-agent" role="tab" aria-selected="false">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                <span>2. AI Chat Agent</span>
+                <span class="tab-chip">Feature 2</span>
+            </button>
+
+            <button class="tab-btn" id="tab-btn-integrated" data-tab="voice-chat" role="tab" aria-selected="false">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                </svg>
+                <span>3. Voice Chat Assistant</span>
+                <span class="tab-chip highlight">Integrated</span>
+            </button>
+        </nav>
+
+        <!-- Main Workspace Panels -->
+        <main class="main-content">
+
+            <!-- TAB 1: AI VOICE STUDIO (INDEPENDENT FEATURE 1) -->
+            <section id="voice-studio" class="tab-pane active" role="tabpanel">
+                <div class="panel-header">
+                    <div>
+                        <h2>AI Voice Generation Studio</h2>
+                        <p class="panel-desc">Generate lifelike speech using neural acoustic models. Audition voices, adjust cadence, listen, and download studio-grade MP3 audio.</p>
+                    </div>
+                    <div class="badge-feature">Independent Feature 1</div>
+                </div>
+
+                <div class="studio-grid">
+                    <!-- Left: Input & Settings -->
+                    <div class="studio-controls card">
+                        <div class="form-group">
+                            <div class="label-row">
+                                <label for="tts-text-input">Speech Text Input</label>
+                                <span class="char-count" id="tts-char-count">0 / 5,000</span>
+                            </div>
+                            <textarea id="tts-text-input" placeholder="Enter the text you want the AI voice to speak aloud..." rows="6">Welcome to EchoCraft Studio! This neural voice synthesis runs with high-fidelity speech models and zero external cost. You can listen, tweak the pitch and speed, and download your audio file.</textarea>
+                            <div class="preset-chips">
+                                <span class="chip-label">Presets:</span>
+                                <button type="button" class="preset-btn" data-text="Welcome to EchoCraft Studio! This neural voice synthesis runs with high-fidelity speech models and zero external cost. You can listen, tweak the pitch and speed, and download your audio file.">Intro</button>
+                                <button type="button" class="preset-btn" data-text="Artificial Intelligence and speech synthesis have revolutionized how humans interact with machines. From natural language understanding to expressive prosody, modern voice agents are reshaping accessible computing.">AI Overview</button>
+                                <button type="button" class="preset-btn" data-text="Attention all crew members: the warp drive synchronization sequence is now complete. Systems are operating at peak efficiency.">Sci-Fi</button>
+                            </div>
+                        </div>
+
+                        <div class="settings-grid">
+                            <div class="form-group">
+                                <label for="tts-voice-select">Select Neural Voice</label>
+                                <select id="tts-voice-select" class="form-control">
+                                    <option value="en-US-JennyNeural">Loading voices catalog...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="label-row">
+                                    <label for="tts-rate-slider">Speaking Rate</label>
+                                    <span class="slider-val" id="tts-rate-val">Default (0%)</span>
+                                </div>
+                                <input type="range" id="tts-rate-slider" min="-50" max="50" value="0" step="5">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="label-row">
+                                    <label for="tts-pitch-slider">Pitch Adjustment</label>
+                                    <span class="slider-val" id="tts-pitch-val">Default (0Hz)</span>
+                                </div>
+                                <input type="range" id="tts-pitch-slider" min="-20" max="20" value="0" step="2">
+                            </div>
+                        </div>
+
+                        <button id="tts-generate-btn" class="btn btn-primary btn-block">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                            <span id="tts-btn-label">Generate Speech Audio</span>
+                        </button>
+                    </div>
+
+                    <!-- Right: Audio Player & Download Card -->
+                    <div class="studio-output card">
+                        <h3>Audio Output Player</h3>
+                        <p class="text-muted">Generated audio will appear here ready for real-time playback and MP3 download.</p>
+
+                        <div class="audio-player-box empty" id="audio-player-container">
+                            <div class="waveform-placeholder" id="waveform-visualizer">
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                                <div class="bar"></div><div class="bar"></div><div class="bar"></div>
+                            </div>
+                            
+                            <audio id="tts-audio-element" controls preload="auto" class="native-player"></audio>
+
+                            <div class="audio-meta" id="audio-meta-info" style="display: none;">
+                                <div class="meta-item">
+                                    <span class="meta-label">Voice:</span>
+                                    <span class="meta-value" id="meta-voice-name">-</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Format:</span>
+                                    <span class="meta-value">MPEG Audio (.mp3)</span>
+                                </div>
+                                <div class="meta-item">
+                                    <span class="meta-label">Size:</span>
+                                    <span class="meta-value" id="meta-file-size">-</span>
+                                </div>
+                            </div>
+
+                            <div class="download-actions" id="download-actions" style="display: none;">
+                                <a id="tts-download-btn" class="btn btn-accent btn-block" download="ai_generated_speech.mp3">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="7 10 12 15 17 10"/>
+                                        <line x1="12" y1="15" x2="12" y2="3"/>
+                                    </svg>
+                                    <span>Download Audio (.MP3)</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="info-tip-box">
+                            <strong>Tip:</strong> This module uses Microsoft Edge Neural TTS with 300+ voices. It requires zero API keys and generates standard MP3 files directly compatible with any media player.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: AI CHAT AGENT (INDEPENDENT FEATURE 2) -->
+            <section id="chat-agent" class="tab-pane" role="tabpanel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Conversational AI Chat Agent</h2>
+                        <p class="panel-desc">Interact with an AI conversational agent. Ask questions, explore concepts, and receive structured responses.</p>
+                    </div>
+                    <div class="badge-feature">Independent Feature 2</div>
+                </div>
+
+                <div class="chat-container card">
+                    <div class="chat-toolbar">
+                        <div class="chat-model-info">
+                            <span class="indicator-dot"></span>
+                            <span id="chat-provider-display">Engine: Loading...</span>
+                        </div>
+                        <button id="chat-clear-btn" class="btn btn-secondary btn-sm" title="Clear conversation history">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"/>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                            </svg>
+                            <span>Clear Chat</span>
+                        </button>
+                    </div>
+
+                    <!-- Chat Message Stream -->
+                    <div class="chat-messages" id="chat-messages-list">
+                        <div class="message assistant">
+                            <div class="avatar">AI</div>
+                            <div class="msg-bubble">
+                                <div class="msg-author">EchoCraft Assistant</div>
+                                <div class="msg-content">
+                                    Hello! I am your AI Chat Agent. You can ask me questions about voice technology, computer science, project architecture, or anything else. How can I help you today?
+                                </div>
+                                <div class="msg-time">Just now</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Suggested Prompts -->
+                    <div class="suggested-prompts" id="chat-prompts">
+                        <span class="prompt-chip" data-prompt="What is neural speech synthesis and how does it work?">What is neural speech synthesis?</span>
+                        <span class="prompt-chip" data-prompt="Explain the architecture of this EchoCraft prototype.">Explain prototype architecture</span>
+                        <span class="prompt-chip" data-prompt="What are the free-tier costs for voice and LLM APIs?">Free-tier & cost breakdown</span>
+                        <span class="prompt-chip" data-prompt="Tell me a funny programming joke.">Tell me a joke</span>
+                    </div>
+
+                    <!-- Chat Input Area -->
+                    <form class="chat-input-bar" id="chat-form">
+                        <textarea id="chat-text-input" placeholder="Type your message here... (Press Enter to send, Shift+Enter for new line)" rows="1"></textarea>
+                        <button type="submit" id="chat-send-btn" class="btn btn-primary" aria-label="Send Message">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- TAB 3: INTEGRATED VOICE CHAT (INTEGRATED FEATURE) -->
+            <section id="voice-chat" class="tab-pane" role="tabpanel">
+                <div class="panel-header">
+                    <div>
+                        <h2>Integrated Voice Chat Assistant</h2>
+                        <p class="panel-desc">Conversational chat agent and neural speech synthesis combined into one seamless pipeline. The AI responds in text and immediately speaks aloud.</p>
+                    </div>
+                    <div class="badge-feature highlight">Integrated Solution</div>
+                </div>
+
+                <div class="integrated-layout">
+                    <!-- Controls Bar -->
+                    <div class="integrated-bar card">
+                        <div class="integrated-setting">
+                            <label for="integrated-voice-select">Assistant Voice:</label>
+                            <select id="integrated-voice-select" class="form-control select-sm"></select>
+                        </div>
+
+                        <div class="integrated-setting">
+                            <label class="switch-label">
+                                <input type="checkbox" id="auto-speak-toggle" checked>
+                                <span class="switch-slider"></span>
+                                <span class="switch-text">Auto-Speak Responses</span>
+                            </label>
+                        </div>
+
+                        <div class="integrated-setting">
+                            <button id="integrated-clear-btn" class="btn btn-secondary btn-sm">Clear History</button>
+                        </div>
+                    </div>
+
+                    <!-- Integrated Conversation Container -->
+                    <div class="integrated-chat-container card">
+                        <div class="chat-messages" id="integrated-messages-list">
+                            <div class="message assistant">
+                                <div class="avatar">AI</div>
+                                <div class="msg-bubble">
+                                    <div class="msg-author">Vocal AI Assistant</div>
+                                    <div class="msg-content">
+                                        Welcome to the integrated voice chat! Whenever you ask a question, I will synthesize speech and read my response aloud. You can also re-listen or download the audio for any response using the controls below each bubble.
+                                    </div>
+                                    <div class="msg-actions">
+                                        <button class="msg-audio-play-btn" data-text="Welcome to the integrated voice chat! Whenever you ask a question, I will synthesize speech and read my response aloud. You can also re-listen or download the audio for any response using the controls below each bubble.">
+                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <polygon points="5 3 19 12 5 21 5 3"/>
+                                            </svg>
+                                            <span>Speak Aloud</span>
+                                        </button>
+                                    </div>
+                                    <div class="msg-time">Ready</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Active speaking indicator -->
+                        <div class="speaking-bar" id="speaking-indicator" style="display: none;">
+                            <div class="mini-wave">
+                                <span></span><span></span><span></span><span></span>
+                            </div>
+                            <span id="speaking-text">AI is speaking...</span>
+                            <button id="stop-speaking-btn" class="btn btn-secondary btn-xs">Stop</button>
+                        </div>
+
+                        <!-- Suggested chips for integrated chat -->
+                        <div class="suggested-prompts" id="integrated-prompts">
+                            <span class="prompt-chip" data-prompt="Introduce yourself and tell me what you can do in 2 sentences.">Short Introduction</span>
+                            <span class="prompt-chip" data-prompt="Give me a quick 3-step guide to learning web development.">Web Dev Guide</span>
+                            <span class="prompt-chip" data-prompt="Explain quantum computing like I am ten years old.">Explain Quantum Computing</span>
+                        </div>
+
+                        <!-- Input Bar -->
+                        <form class="chat-input-bar" id="integrated-form">
+                            <textarea id="integrated-text-input" placeholder="Ask your question to hear the AI speak..." rows="1"></textarea>
+                            <button type="submit" id="integrated-send-btn" class="btn btn-primary" aria-label="Send">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="22" y1="2" x2="11" y2="13"/>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                                </svg>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>EchoCraft Prototype &bull; Built with FastAPI, Edge-TTS, and Vanilla Modern CSS &bull; 100% Low-Cost & Beginner-Friendly</p>
+        </footer>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
