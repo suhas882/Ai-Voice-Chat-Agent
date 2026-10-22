@@ -30,7 +30,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("echocraft")
 
 # Configuration
-HOST = os.getenv("HOST", "127.0.0.1")
+HOST = os.getenv("HOST", "0.0.0.0")
 PORT = int(os.getenv("PORT", "8000"))
 DEFAULT_VOICE = os.getenv("DEFAULT_VOICE", "en-US-JennyNeural")
 
@@ -278,7 +278,7 @@ def generate_chat_response(messages: List[ChatMessage], requested_provider: str 
 
     # Direct natural fallback
     last_query = messages[-1].content if messages else "Hello"
-    return natural_fallback_answer(last_query), "EchoCraft AI"
+    return natural_fallback_answer(last_query), "EchoCraft AI (builtin)"
 
 # ---------------------------------------------------------
 # TTS Synthesis Helper

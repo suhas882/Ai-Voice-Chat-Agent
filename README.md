@@ -109,10 +109,67 @@ The project includes automated integration tests in [`test_app.py`](file:///d:/S
 
 ---
 
+## 🌐 Cloud Deployment Guide (Render & Railway)
+
+EchoCraft AI Studio comes pre-configured with [`render.yaml`](file:///d:/SAMPLE_PROJECTS/render.yaml), [`Procfile`](file:///d:/SAMPLE_PROJECTS/Procfile), [`railway.json`](file:///d:/SAMPLE_PROJECTS/railway.json), and [`Dockerfile`](file:///d:/SAMPLE_PROJECTS/Dockerfile) for seamless zero-friction cloud deployment.
+
+### Option A: Deploy on Render (Recommended - Free Tier)
+
+1. **Push your code to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Configure cloud deployment for Render and Railway"
+   git push origin main
+   ```
+2. **Log in to Render**: Navigate to [render.com](https://render.com) and log in with your GitHub account.
+3. **Create New Web Service**:
+   - Click **New +** &rarr; **Web Service**.
+   - Connect your GitHub repository: `suhas882/Ai-Voice-Chat-Agent`.
+   - Render automatically recognizes Python:
+     - **Runtime**: `Python 3`
+     - **Build Command**: `pip install -r requirements.txt`
+     - **Start Command**: `uvicorn server:app --host 0.0.0.0 --port $PORT`
+     - **Instance Type**: `Free`
+4. **Configure Environment Variables (Optional)**:
+   - Under the **Environment Variables** section, add your preferred LLM provider keys if available:
+     - `GEMINI_API_KEY`: *(optional, free tier from Google AI Studio)*
+     - `GROQ_API_KEY`: *(optional, ultra-fast free tier from Groq)*
+     - `OPENAI_API_KEY`: *(optional)*
+   - *Note: If no API keys are provided, EchoCraft runs out-of-the-box in 100% Free Built-in Mode!*
+5. Click **Create Web Service**. Your public live URL (e.g. `https://echocraft-ai-studio.onrender.com`) will be live within 2-3 minutes.
+
+---
+
+### Option B: Deploy on Railway
+
+1. Navigate to [railway.com](https://railway.com) and log in.
+2. Click **New Project** &rarr; **Deploy from GitHub repo**.
+3. Select `suhas882/Ai-Voice-Chat-Agent`.
+4. Railway will automatically detect [`railway.json`](file:///d:/SAMPLE_PROJECTS/railway.json) and build your service.
+5. In **Settings** &rarr; **Networking**, click **Generate Domain** to receive your public `https://...up.railway.app` URL.
+
+---
+
+### Option C: Run with Docker
+
+```bash
+docker build -t echocraft-ai-studio .
+docker run -p 8000:8000 echocraft-ai-studio
+```
+Open your browser at `http://localhost:8000`.
+
+---
+
 ## 📁 Project Structure
 
 ```
 d:\SAMPLE_PROJECTS\
+├── Procfile                                   # Process declaration for Render & Railway
+├── render.yaml                                # Render Blueprint specification
+├── railway.json                               # Railway build & deploy specification
+├── Dockerfile                                 # Multi-platform production container definition
+├── .dockerignore                              # Docker build exclusion rules
+├── runtime.txt                                # Python runtime specification (3.11.9)
 ├── .env.example                               # Sample environment settings
 ├── .env                                       # Active local environment settings
 ├── requirements.txt                           # Backend dependencies
